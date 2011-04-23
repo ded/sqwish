@@ -1,0 +1,11 @@
+/*!
+  * this file is copyright 2 thousand and late
+  */
+body {
+  color: red;
+  background: blue;
+}
+/* neat, an attribute selector */
+p[rel="hello world"] {
+  font: 100 2/20px helvetica neue, helvetica;
+}
