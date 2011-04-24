@@ -1,12 +1,3 @@
-/*! this is the main copyright of a thing
-  * it has a url like example.com
-  * and contact me at @ded
-  */
-body, p[rel="stuff and things"] {
-  color: red;
-  font: 100 2/300px helvetica neue, helvetica;
-  background: orange;
-}
 /* even more crap */
 /*! this file has a copyright thing */
 * {
@@ -97,4 +88,14 @@ body.email-address-nag .email-address-nag-banner {
 }
 .employee-nag-banner {
   display: block
+}
+
+/*! this is the main copyright of a thing
+  * it has a url like example.com
+  * and contact me at @ded
+  */
+body, p[rel="stuff and things"] {
+  color: red;
+  font: 100 2/300px helvetica neue, helvetica;
+  background: orange;
 }

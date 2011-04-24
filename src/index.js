@@ -13,7 +13,9 @@ function sqwish(css) {
            .replace(/([:;,])\s+/g, '$1')
            // space between last declaration and end of rule
            // also remove trailing semi-colons on last declaration
-           .replace(/[\s;]+(})/g, '$1');
+           .replace(/[\s;]+(})/g, '$1')
+           // this is important
+           .replace(/\s+(!important)/g, '$1');
   if (comments) {
     comments = comments ? comments.join('\n') : '';
     css = comments + '\n' + css;
