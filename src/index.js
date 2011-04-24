@@ -28,7 +28,7 @@ function sqwish(css) {
     .replace(/\n/g, '')
 
     // space between selectors and declarations
-    .replace(/([\w\*]*)\s+([{}])\s+([\w\*])/g, '$1$2$3')
+    .replace(/([^\{]*)\s+([{}])\s+([\w\*\#\.\-])/g, '$1$2$3')
 
     // space between declarations, properties and values
     .replace(/([:;,])\s+/g, '$1')
@@ -38,7 +38,10 @@ function sqwish(css) {
     .replace(/[\s;]+(})/g, '$1')
 
     // this is important
-    .replace(/\s+(!important)/g, '$1');
+    .replace(/\s+(!important)/g, '$1')
+
+    // convert longhand hex to shorthand hex
+    .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3/g, '#$1$2$3');
 
 
   // now some super fun funky shit where we remove duplicate declarations

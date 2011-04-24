@@ -35,9 +35,9 @@ Sqwish *does* attempt to remove duplicate rules and properties.
       background: red;
     }
     div {
-      color: red;
+      color: #ff33cc;
       margin: 0;
     }
 
     // after
-    div{color:red;background:red;margin:0}
+    div{color:#f3c;background:red;margin:0}
