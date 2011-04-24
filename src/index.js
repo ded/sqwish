@@ -23,10 +23,12 @@ function sqwish(css) {
 module.exports.exec = function (args) {
   var out;
   var read = args[0];
-  if (out = args.indexOf('-o')) {
+  if (out = args.indexOf('-o') != -1) {
     out = args[out + 1];
   } else {
-    out = args[0].replace(/\.css$/, '.min.css');
+    console.log('what is read', read);
+    out = read.replace(/\.css$/, '.min.css');
+    console.log('what is out', out);
   }
   console.log('compressing ' + read + ' to ' + out);
   var data = fs.readFileSync(read, 'utf8');
