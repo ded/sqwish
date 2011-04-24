@@ -3,6 +3,10 @@
 * {
   margin: 0; padding: 0
 }
+* {
+  margin: 5px;
+  color: red;
+}
 fieldset, img {
   border-width: 0;
   border-color: transparent;
