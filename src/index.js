@@ -26,11 +26,9 @@ module.exports.exec = function (args) {
   if (out = args.indexOf('-o') != -1) {
     out = args[out + 1];
   } else {
-    console.log('what is read', read);
     out = read.replace(/\.css$/, '.min.css');
-    console.log('what is out', out);
   }
-  console.log('compressing ' + read + ' to ' + out);
+  console.log('compressing ' + read + ' to ' + out + '...');
   var data = fs.readFileSync(read, 'utf8');
   fs.writeFileSync(out, sqwish(data), 'utf8')
 };
