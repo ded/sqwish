@@ -66,7 +66,8 @@ function sqwish(css) {
       var prop = decl.match(/[^:]+/)[0];
       // pre-existing properties are not wanted anymore
       return !declarations.some(function (dec) {
-        return dec.match(new RegExp(prop + ':'));
+        // must include '^' as to not confuse "color" with "border-color" etc.
+        return dec.match(new RegExp('^' + prop + ':'));
       });
     });
 
