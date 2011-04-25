@@ -1,10 +1,10 @@
 Welcome to Sqwish
 ----------
-a Node based CSS compiler. It works like this.
+A [Node](http://nodejs.org) based CSS Compressor. It works like this.
 
-    require('sqwish').minify('body { color: red; }');
+    require('sqwish').minify('body { color: #ff33cc; }');
     // =>
-    body{color:red}
+    body{color:#f3c}
 
 CLI
 ---
@@ -14,9 +14,9 @@ Install it.
 
 Use it like this:
 
-    sqwish css/styles.css -o css/styles.min.css
+    sqwish css/styles.css -o css/prod-styles.min.css
 
-Usage notes
+Notes
 -------
 Sqwish does not attempt to fix invalid CSS, therefore, at minimum, your CSS should at least follow the basic rules:
 
@@ -25,9 +25,9 @@ Sqwish does not attempt to fix invalid CSS, therefore, at minimum, your CSS shou
       another-property: another value;
     }
 
-Optimizations
+Strict Optimizations
 ----------
-Sqwish *does* attempt to remove duplicate rules and properties.
+Aside from regular minification, in <code>--strict</code> mode Sqwish will combines duplicate selectors and merge duplicate properties.
 
     // before
     div {
@@ -41,3 +41,11 @@ Sqwish *does* attempt to remove duplicate rules and properties.
 
     // after
     div{color:#f3c;background:red;margin:0}
+
+This mode can be enabled as so:
+
+    sqwish.minify(css, <code>true</code>);
+
+on the command line
+
+    sqwish styles.css --strict

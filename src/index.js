@@ -1,3 +1,10 @@
+/*!
+  * Sqwish - a CSS Compressor
+  * Copyright Dustin Diaz 2011
+  * https://github.com/ded/sqwish
+  * License MIT
+  */
+
 var fs = require('fs');
 
 function uniq(ar) {
@@ -14,7 +21,7 @@ function uniq(ar) {
   return a;
 }
 
-function sqwish(css) {
+function sqwish(css, strict) {
   // allow /*! bla */ style comments to retain copyrights etc.
   var comments = css.match(/\/\*![\s\S]+?\*\//g);
 
@@ -43,7 +50,19 @@ function sqwish(css) {
     // convert longhand hex to shorthand hex
     .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3/g, '#$1$2$3');
 
+  if (strict) {
+    css = strict_css(css);
+  }
 
+  // put back in copyrights
+  if (comments) {
+    comments = comments ? comments.join('\n') : '';
+    css = comments + '\n' + css;
+  }
+  return css;
+}
+
+function strict_css(css) {
   // now some super fun funky shit where we remove duplicate declarations
   // into combined rules
 
@@ -86,14 +105,9 @@ function sqwish(css) {
     var joinedRuleList = ruleList[selector].join(';');
     css += selector + '{' + (joinedRuleList).replace(/;$/, '') + '}';
   }
-
-  // put back in copyrights
-  if (comments) {
-    comments = comments ? comments.join('\n') : '';
-    css = comments + '\n' + css;
-  }
   return css;
 }
+
 module.exports.exec = function (args) {
   var out;
   var read = args[0];
@@ -104,8 +118,8 @@ module.exports.exec = function (args) {
   }
   console.log('compressing ' + read + ' to ' + out + '...');
   var data = fs.readFileSync(read, 'utf8');
-  fs.writeFileSync(out, sqwish(data), 'utf8')
+  fs.writeFileSync(out, sqwish(data, (args.indexOf('--strict') != -1)), 'utf8');
 };
-module.exports.minify = function (css) {
-  return sqwish(css);
+module.exports.minify = function (css, strict) {
+  return sqwish(css, strict);
 };
