@@ -36,7 +36,7 @@ Aside from regular minification, in <code>--strict</code> mode Sqwish will combi
     }
     div {
       color: #ff33cc;
-      margin: 0;
+      margin: 0px;
     }
 
     // after
