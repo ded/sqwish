@@ -49,3 +49,5 @@ This mode can be enabled as so:
 on the command line
 
     sqwish styles.css --strict
+
+Happy Sqwishing!
