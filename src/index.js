@@ -24,8 +24,8 @@ function sqwish(css) {
     // comments
     .replace(/\/\*[\s\S]+?\*\//g, '')
 
-    // line breaks
-    .replace(/\n/g, '')
+    // line breaks and carriage returns
+    .replace(/[\n\r]/g, '')
 
     // space between selectors and declarations
     .replace(/([^\{]*)\s+([{}])\s+([\w\*\#\.\-])/g, '$1$2$3')
