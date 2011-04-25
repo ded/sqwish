@@ -44,7 +44,7 @@ Aside from regular minification, in <code>--strict</code> mode Sqwish will combi
 
 This mode can be enabled as so:
 
-    sqwish.minify(css, <code>true</code>);
+    sqwish.minify(css, true);
 
 on the command line
 
