@@ -36,6 +36,9 @@ function sqwish(css, strict) {
     // space between selectors, declarations, properties and values
     .replace(/\s*([:;,{}])\s*/g, '$1')
 
+    // replace multiple spaces with single spaces
+    .replace(/\s+/g, ' ')
+
     // space between last declaration and end of rule
     // also remove trailing semi-colons on last declaration
     .replace(/;}/g, '}')
@@ -45,6 +48,9 @@ function sqwish(css, strict) {
 
     // convert longhand hex to shorthand hex
     .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3/g, '#$1$2$3');
+  
+    // replace 0px with 0
+    .replace(/([\s|:])[0]+px/g, '$10');
 
   if (strict) {
     css = strict_css(css);
