@@ -27,7 +27,7 @@ Sqwish does not attempt to fix invalid CSS, therefore, at minimum, your CSS shou
 
 Strict Optimizations
 ----------
-Aside from regular minification, in <code>--strict</code> mode Sqwish will combines duplicate selectors and merge duplicate properties.
+Aside from regular minification, in <code>--strict</code> mode Sqwish will combine duplicate selectors and merge duplicate properties.
 
     // before
     div {
@@ -49,5 +49,19 @@ This mode can be enabled as so:
 on the command line
 
     sqwish styles.css --strict
+
+Developers
+----------
+Be sure you have the proper testing harness set up ahead of time by installing the <code>sink-test</code> submodule
+
+    $ git submodule update --init
+
+Tests can be added in <code>tests/tests.js</code>, and then run as such:
+
+    $ make
+
+License
+-------
+Sqwish is copyright Dustin Diaz 2011 under MIT License
 
 Happy Sqwishing!
