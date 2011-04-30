@@ -36,11 +36,11 @@ Aside from regular minification, in <code>--strict</code> mode Sqwish will combi
     }
     div {
       color: #ff33cc;
-      margin: 0px;
+      margin: 1px 0px 1px 0px;
     }
 
     // after
-    div{color:#f3c;background:red;margin:0}
+    div{color:#f3c;background:red;margin:1px 0}
 
 This mode can be enabled as so:
 

@@ -19,6 +19,13 @@ sink('basic mode', function (test, ok) {
     ok(actual == expected, 'collapsed #ffcc33 to #fc3');
   });
 
+  test('longhand values to shorthand values', 1, function () {
+    var input = 'p { margin: 0px 1px 0px 1px }',
+        expected = 'p{margin:0 1px}',
+        actual = sqwish.minify(input);
+    ok(actual == expected, 'collapsed 0px 1px 0px 1px to 0 1px');
+  });
+
 });
 
 sink('strict mode', function (test, ok) {
