@@ -13,6 +13,12 @@
     "lib": "src"
     , "bin": "bin"
   }
+  , "devDependencies": {
+      "sink-test": ">= 0.0.6"
+    }
+  , "scripts": {
+    "test": "node tests/tests.js"
+  }
   , "preferGlobal": true
   , "bin": {
     "sqwish": "bin/sqwish"

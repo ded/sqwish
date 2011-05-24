@@ -1,3 +1,0 @@
-[submodule "submodules/sink"]
-	path = submodules/sink
-	url = git://github.com/ded/sink-test

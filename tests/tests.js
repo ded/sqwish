@@ -1,4 +1,4 @@
-var sink = require('../submodules/sink/'),
+var sink = require('../node_modules/sink-test/'),
     start = sink.start,
     sink = sink.sink,
     sqwish = require('../src/');
