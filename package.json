@@ -7,20 +7,20 @@
   , "keywords": ["minify", "css", "compress"]
   , "main": "src/index.js"
   , "engines": {
-    "node": ">= 0.4.1"
-  }
+      "node": ">= 0.4.1"
+    }
   , "directories": {
-    "lib": "src"
-    , "bin": "bin"
-  }
+      "lib": "src"
+      , "bin": "bin"
+    }
   , "devDependencies": {
       "sink-test": ">= 0.0.6"
     }
   , "scripts": {
-    "test": "node tests/tests.js"
-  }
+      "test": "node tests/tests.js"
+    }
   , "preferGlobal": true
   , "bin": {
-    "sqwish": "bin/sqwish"
-  }
+      "sqwish": "bin/sqwish"
+    }
 }

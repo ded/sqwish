@@ -7,6 +7,12 @@
   margin: 5px;
   color: red;
 }
+/* media queries */
+@media screen and (max-device-width: 480px) {
+  .column {
+    float: none;
+  }
+}
 fieldset, img {
   border-width: 0;
   border-color: transparent;
