@@ -26,6 +26,20 @@ sink('basic mode', function (test, ok) {
     ok(actual == expected, 'collapsed 0px 1px 0px 1px to 0 1px')
   })
 
+  test('certain longhand values are maintained', 1, function () {
+    var input = 'p { margin: 11px 1px 1px 1px }'
+      , expected = 'p{margin:11px 1px 1px 1px}'
+      , actual = sqwish.minify(input)
+    ok(actual == expected, 'maintained 11px 1px 1px 1px')
+  })
+
+  test('certain double-specified longhand values are maintained', 1, function () {
+    var input = 'p { margin: 12px 12px 2px 12px }'
+      , expected = 'p{margin:12px 12px 2px 12px}'
+      , actual = sqwish.minify(input)
+    ok(actual == expected, 'maintained 12px 12px 2px 12px')
+  })
+
   test('does not break with @media queries', 2, function () {
     var input = '@media screen and (max-device-width: 480px) {' +
                 '  .column {' +
