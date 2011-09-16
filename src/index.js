@@ -50,10 +50,10 @@ function sqwish(css, strict) {
     .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3/g, '#$1$2$3')
 
     // replace longhand values with shorthand '5px 5px 5px 5px' => '5px'
-    .replace(/(\d+[a-z]{2}) \1 \1 \1/gi, '$1')
+    .replace(/\b(\d+[a-z]{2}) \1 \1 \1/gi, '$1')
 
     // replace double-specified longhand values with shorthand '5px 2px 5px 2px' => '5px 2px'
-    .replace(/(\d+[a-z]{2}) (\d+[a-z]{2}) \1 \2/gi, '$1 $2')
+    .replace(/\b(\d+[a-z]{2}) (\d+[a-z]{2}) \1 \2/gi, '$1 $2')
 
     // replace 0px with 0
     .replace(/([\s|:])[0]+px/g, '$10')
