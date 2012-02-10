@@ -124,7 +124,9 @@ module.exports.exec = function (args) {
   } else {
     out = read.replace(/\.css$/, '.min.css')
   }
-  console.log('compressing ' + read + ' to ' + out + '...')
+  if (args.indexOf('-v') != -1) {
+    console.log('compressing ' + read + ' to ' + out + '...')
+  }
   data = fs.readFileSync(read, 'utf8')
   fs.writeFileSync(out, sqwish(data, (~args.indexOf('--strict'))), 'utf8')
 };
