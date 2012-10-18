@@ -19,6 +19,13 @@ sink('basic mode', function (test, ok) {
     ok(actual == expected, 'collapsed #ffcc33 to #fc3')
   })
 
+  test('IE long hex is kept as long hex', 1, function () {
+    var input = "body { filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFF2F2F2', endColorstr='#FFFFFFFF'); }"
+      , expected = "body{filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#FFF2F2F2',endColorstr='#FFFFFFFF')}"
+      , actual = sqwish.minify(input)
+    ok(actual == expected, 'IE long hexes are kept that way')
+  })
+
   test('longhand values to shorthand values', 1, function () {
     var input = 'p { margin: 0px 1px 0px 1px }'
       , expected = 'p{margin:0 1px}'

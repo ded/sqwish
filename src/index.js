@@ -47,7 +47,7 @@ function sqwish(css, strict) {
     .replace(/\s+(!important)/g, '$1')
 
     // convert longhand hex to shorthand hex
-    .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3/g, '#$1$2$3')
+    .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3(?![a-fA-F0-9])/g, '#$1$2$3')
 
     // replace longhand values with shorthand '5px 5px 5px 5px' => '5px'
     .replace(/\b(\d+[a-z]{2}) \1 \1 \1/gi, '$1')
