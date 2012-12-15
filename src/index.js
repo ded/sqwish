@@ -20,6 +20,10 @@ function uniq(ar) {
   }
   return a
 }
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 
 function sqwish(css, strict) {
   // allow /*! bla */ style comments to retain copyrights etc.
@@ -97,7 +101,7 @@ function strict_css(css) {
       // pre-existing properties are not wanted anymore
       return !declarations.some(function (dec) {
         // must include '^' as to not confuse "color" with "border-color" etc.
-        return dec.match(new RegExp('^' + prop + ':'))
+        return dec.match(new RegExp('^' + escapeRegExp(prop) + ':'))
       })
     })
 

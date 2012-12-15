@@ -54,6 +54,12 @@ sink('basic mode', function (test, ok) {
 
   })
 
+  test('ie-specific properties *prop', 1, function() {
+    var input = '.class {*display:block; display:inline-block;}'
+      ,expected = '.class{*display:block;display:inline-block}'
+    ok(sqwish.minify(input) == expected, 'ie-specific properties are tolerated')
+  })
+
 })
 
 sink('strict mode', function (test, ok) {
