@@ -54,12 +54,6 @@ sink('basic mode', function (test, ok) {
 
   })
 
-  test('ie-specific properties *prop', 1, function() {
-    var input = '.class {*display:block; display:inline-block;}'
-      ,expected = '.class{*display:block;display:inline-block}'
-    ok(sqwish.minify(input) == expected, 'ie-specific properties are tolerated')
-  })
-
 })
 
 sink('strict mode', function (test, ok) {
@@ -75,6 +69,13 @@ sink('strict mode', function (test, ok) {
       , expected = 'div{color:#fc8}'
       , actual = sqwish.minify(input, true)
     ok(actual == expected, 'collapsed duplicate into a single declaration')
+  })
+
+  test('ie-specific properties *prop', 1, function() {
+    var input = '.class {*display:block; display:inline-block;}'
+      ,expected = '.class{display:inline-block;*display:block}'
+      console.log(sqwish.minify(input,true));
+    ok(sqwish.minify(input,true) == expected, 'ie-specific properties are tolerated')
   })
 
 })
