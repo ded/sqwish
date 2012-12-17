@@ -54,10 +54,12 @@ sink('basic mode', function (test, ok) {
                 '  }' +
                 '}'
       , expected = '@media screen and (max-device-width:480px){.column{float:none}}'
-
-    console.log(sqwish.minify(input, true))
-    ok(sqwish.minify(input) == expected, 'media queries do not blow up')
-    ok(sqwish.minify(input, true) == expected, 'media queries do not blow up in strict mode')
+      , strictOutput = sqwish.minify(input, true)
+      , regularOutput = sqwish.minify(input)
+    console.log(strictOutput)
+    console.log(regularOutput)
+    ok(regularOutput == expected, 'media queries do not blow up')
+    ok(strictOutput == expected, 'media queries do not blow up in strict mode')
 
   })
 
