@@ -20,15 +20,15 @@ sink('basic mode', function (test, ok) {
   })
 
   test('IE long hex is kept as long hex', 1, function () {
-    var input = "body { filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFF2F2F2', endColorstr='#FFFFFFFF'); }"
-      , expected = "body{filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#FFF2F2F2',endColorstr='#FFFFFFFF')}"
+    var input = "body { filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFEEEEEE', endColorstr='#FFFFFFFF'); }"
+      , expected = "body{filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#FFEEEEEE',endColorstr='#FFFFFFFF')}"
       , actual = sqwish.minify(input)
     ok(actual == expected, 'IE long hexes are kept that way')
   })
 
   test('IE 6-digit hex is kept as 6-digit hex', 1, function () {
-    var input = "body { filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#F2F2F2', endColorstr='#FFFFFF'); }"
-      , expected = "body{filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#F2F2F2',endColorstr='#FFFFFF')}"
+    var input = "body { filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#EEEEEE', endColorstr='#FFFFFF'); }"
+      , expected = "body{filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#EEEEEE',endColorstr='#FFFFFF')}"
       , actual = sqwish.minify(input)
     ok(actual == expected, 'IE 6-digit hexes are kept that way')
   })
