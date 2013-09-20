@@ -20,6 +20,11 @@
       "test": "node tests/tests.js"
     }
   , "preferGlobal": true
+  , "repository" : { 
+      "type" : "git"
+      , "url" : "https://github.com/ded/sqwish.git"
+    }
+
   , "bin": {
       "sqwish": "bin/sqwish"
     }
