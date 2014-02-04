@@ -87,6 +87,13 @@ sink('strict mode', function (test, ok) {
     ok(actual == expected, 'collapsed duplicate into a single declaration')
   })
 
+  test('ie-specific properties *prop', 1, function() {
+    var input = '.class {*display:block; display:inline-block;}'
+      ,expected = '.class{display:inline-block;*display:block}'
+      console.log(sqwish.minify(input,true));
+    ok(sqwish.minify(input,true) == expected, 'ie-specific properties are tolerated')
+  })
+
 })
 
 start()
