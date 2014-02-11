@@ -99,7 +99,7 @@ function strict_css(css) {
       // pre-existing properties are not wanted anymore
       return !declarations.some(function (dec) {
         // must include '^' as to not confuse "color" with "border-color" etc.
-        return dec.match(new RegExp('^' + prop + ':'))
+        return dec.match(new RegExp('^' + prop.replace(/[-\/\^$*+?.()|[]{}]/g, '\$&') + ':'))
       })
     })
 
