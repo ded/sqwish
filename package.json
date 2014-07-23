@@ -9,6 +9,10 @@
     "css",
     "compress"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ded/sqwish.git"
+  },
   "main": "src/index.js",
   "engines": {
     "node": ">= 0.4.1"
