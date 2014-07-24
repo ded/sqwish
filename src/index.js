@@ -5,133 +5,131 @@
   * License MIT
   */
 
-var fs = require('fs');
+'use strict';
 
-function uniq(ar) {
-  var a = [], i, j;
-  label:
-  for (i = ar.length - 1; i >= 0; i--) {
-    for (j = a.length - 1; j >= 0; j--) {
-      if (a[j] == ar[i]) {
-        continue label
-      }
+var fs           = require('fs'),
+    RegexEscape  = /[\-\/\\\^$*+?.()|\[\]{}]/g,
+    RuleRgx      = /([^{]+\{[^}]+\}+)+?/g,
+    PropRgx      = /[^:]+/,
+    RuleSplitRgx = /([^{]+)\{([^}]+\}*)/,
+    CopyrightRgx = /copy.?right|[®©]|@preserve|@license|@cc_on/gi,
+    CommentsRgx  = /\/\*![\s\S]+?\*\//g,
+    Rgx1         = /\/\*[\s\S]+?\*\/|[\n\r]/g,
+    Rgx2         = /\s*([:;,{}])\s*/g,
+    Rgx3         = /\s+/g,
+    Rgx4         = /;}/g,
+    Rgx5         = /\s+(!important)/g,
+    Rgx6         = /#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3(?![a-fA-F0-9])/g,
+    Rgx7         = /(Microsoft[^;}]*)#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])(?![a-fA-F0-9])/g,
+    Rgx8         = /\b(\d+[a-z]{2}) \1 \1 \1/gi,
+    Rgx9         = /\b(\d+[a-z]{2}) (\d+[a-z]{2}) \1 \2/gi,
+    Rgx10        = /([\s|:])[0]+px/g,
+    Regex        = [Rgx10, Rgx9, Rgx8, Rgx7, Rgx6, Rgx5, Rgx4, Rgx3, Rgx2, Rgx1],
+    Replace      = ['$10', '$1 $2', '$1', '$1#$2$2$3$3$4$4', '#$1$2$3', '$1', '}', ' ', '$1', '']
+;
+
+function unique(ar) {
+    var a = [], i = ar.length, j, k;
+    label:
+    while(i--) {
+        j = k = a.length;
+        while(j--) { if(a[j] === ar[i]) { continue label; } }
+        a[k] = ar[i];
     }
-    a[a.length] = ar[i]
-  }
-  return a
+    return a;
+}
+
+function strictCss(css) {
+    var parts, declarations, selector,
+        ruleList = {},
+        rules = css.match(RuleRgx),
+        i = 0,
+        out = '',
+        ruleLen = rules.length,
+        func2 = function(input, dec) {
+            var decLen, ele,
+                arr = [],
+                inLen = input.length
+            ;
+
+            while(inLen--) {
+                ele = input[inLen];
+                decLen = dec.length;
+                while(decLen--) {
+                    if(new RegExp('^' + ele.match(PropRgx)[0].replace(RegexEscape, '\\$&') + ':').test(dec[decLen])) {
+                        break;
+                    }
+                }
+                if(decLen < 0) {
+                    arr.push(ele);
+                }
+            }
+
+            arr.push.apply(arr, dec);
+            return arr;
+        }
+    ;
+
+    for(; i < ruleLen;) {
+        parts = rules[i++].match(RuleSplitRgx);
+        selector = parts[1];
+        declarations = parts[2].slice(0, -1).split(';');
+        ruleList[selector] = unique((ruleList[selector]) ? func2(ruleList[selector], declarations) : declarations);
+    }
+
+    rules = Object.keys(ruleList);
+    ruleLen = rules.length;
+    i = 0;
+
+    for(; i < ruleLen; i++) {
+        parts = rules[i];
+        out += parts + '{' + ruleList[parts].join(';') + '}';
+    }
+
+    return out;
 }
 
 function sqwish(css, strict) {
-  // allow /*! bla */ style comments to retain copyrights etc.
-  var comments = css.match(/\/\*![\s\S]+?\*\//g);
+    var comments = css.match(CommentsRgx),
+        copyright = CopyrightRgx.test(comments),
+        len = Regex.length;
 
-  css = css.trim() // give it a solid trimming to start
+    css = css.trim();
 
-    // comments
-    .replace(/\/\*[\s\S]+?\*\//g, '')
-
-    // line breaks and carriage returns
-    .replace(/[\n\r]/g, '')
-
-    // space between selectors, declarations, properties and values
-    .replace(/\s*([:;,{}])\s*/g, '$1')
-
-    // replace multiple spaces with single spaces
-    .replace(/\s+/g, ' ')
-
-    // space between last declaration and end of rule
-    // also remove trailing semi-colons on last declaration
-    .replace(/;}/g, '}')
-
-    // this is important
-    .replace(/\s+(!important)/g, '$1')
-
-    // convert longhand hex to shorthand hex
-    .replace(/#([a-fA-F0-9])\1([a-fA-F0-9])\2([a-fA-F0-9])\3(?![a-fA-F0-9])/g, '#$1$2$3')
-    // Restore Microsoft longhand hex
-    .replace(/(Microsoft[^;}]*)#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])(?![a-fA-F0-9])/g, '$1#$2$2$3$3$4$4')
-
-    // replace longhand values with shorthand '5px 5px 5px 5px' => '5px'
-    .replace(/\b(\d+[a-z]{2}) \1 \1 \1/gi, '$1')
-
-    // replace double-specified longhand values with shorthand '5px 2px 5px 2px' => '5px 2px'
-    .replace(/\b(\d+[a-z]{2}) (\d+[a-z]{2}) \1 \2/gi, '$1 $2')
-
-    // replace 0px with 0
-    .replace(/([\s|:])[0]+px/g, '$10')
-
-  if (strict) {
-    css = strict_css(css)
-  }
-
-  // put back in copyrights
-  if (comments) {
-    comments = comments ? comments.join('\n') : ''
-    css = comments + '\n' + css
-  }
-  return css
-}
-
-function strict_css(css) {
-  // now some super fun funky shit where we remove duplicate declarations
-  // into combined rules
-
-  // store global dict of all rules
-  var ruleList = {}
-    , rules = css.match(/([^{]+\{[^}]+\})+?/g)
-
-  // lets find the dups
-  rules.forEach(function (rule) {
-    // break rule into selector|declaration parts
-    var parts = rule.match(/([^{]+)\{([^}]+)/)
-      , selector = parts[1]
-      , declarations = parts[2]
-
-    // start new list if it wasn't created already
-    if (!ruleList[selector]) {
-      ruleList[selector] = []
+    while (len--) {
+        css = css.replace(Regex[len], Replace[len]);
     }
 
-    declarations = declarations.split(';')
-    // filter out duplicate properties
-    ruleList[selector] = ruleList[selector].filter(function (decl) {
-      var prop = decl.match(/[^:]+/)[0]
-      // pre-existing properties are not wanted anymore
-      return !declarations.some(function (dec) {
-        // must include '^' as to not confuse "color" with "border-color" etc.
-        return dec.match(new RegExp('^' + prop.replace(/[-\/\^$*+?.()|[]{}]/g, '\$&') + ':'))
-      })
-    })
+    if(strict) {
+        css = strictCss(css);
+    }
 
-    // latter takes presedence :)
-    ruleList[selector] = ruleList[selector].concat(declarations);
-    // still dups? just in case
-    ruleList[selector] = uniq(ruleList[selector])
-  })
+    if (copyright && comments) {
+        comments = comments ? comments.join('\n') : '';
+        css = comments + '\n' + css;
+    }
 
-  // reset css because we're gonna recreate the whole shabang.
-  css = ''
-  for (var selector in ruleList) {
-    var joinedRuleList = ruleList[selector].join(';')
-    css += selector + '{' + (joinedRuleList).replace(/;$/, '') + '}'
-  }
-  return css
+    return css;
 }
 
 module.exports.exec = function (args) {
-  var out, data
-    , read = args[0]
-  if (out = args.indexOf('-o') != -1) {
-    out = args[out + 1]
-  } else {
-    out = read.replace(/\.css$/, '.min.css')
-  }
-  if (args.indexOf('-v') != -1) {
-    console.log('compressing ' + read + ' to ' + out + '...')
-  }
-  data = fs.readFileSync(read, 'utf8')
-  fs.writeFileSync(out, sqwish(data, (~args.indexOf('--strict'))), 'utf8')
+    var out, data, read = args[0];
+
+    if (out = args.indexOf('-o') !== -1) {
+        out = args[out + 1];
+    } else {
+        out = read.replace(/\.css$/, '.min.css');
+    }
+
+    if (args.indexOf('-v') !== -1) {
+        console.log('compressing ' + read + ' to ' + out + '...');
+    }
+
+    data = fs.readFileSync(read, 'utf8');
+
+    fs.writeFileSync(out, sqwish(data, (~args.indexOf('--strict'))), 'utf8');
 };
+
 module.exports.minify = function (css, strict) {
-  return sqwish(css, strict)
+    return sqwish(css, strict);
 };
