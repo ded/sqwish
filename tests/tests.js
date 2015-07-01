@@ -12,6 +12,13 @@ sink('basic mode', function (test, ok) {
     ok(actual == expected, 'all appropriate whitespace was removed')
   })
 
+  test('comments', 1, function () {
+    var input = '/**/p{color:blue}/**/'
+        , expected = 'p{color:blue}'
+        , actual = sqwish.minify(input)
+    ok(actual == expected, 'empty multiline comments removed')
+  })
+
   test('long hex to short hex', 1, function () {
     var input = 'p { color: #ffcc33; }'
       , expected = 'p{color:#fc3}'

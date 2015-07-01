@@ -28,7 +28,7 @@ function sqwish(css, strict) {
   css = css.trim() // give it a solid trimming to start
 
     // comments
-    .replace(/\/\*[\s\S]+?\*\//g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
 
     // line breaks and carriage returns
     .replace(/[\n\r]/g, '')
